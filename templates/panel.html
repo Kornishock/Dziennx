@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
+<h2><strong>Dziennx</strong><span style="color: #33cccc;"><em><sub>alpha</sub></em></span></h2>
+
+    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+
+<script type="text/javascript">
+
+window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+    animationEnabled: true,
+    theme: "light2",
+
+    toolTip: {
+			shared: false,
+			contentFormatter: function (e) {
+				var content = " ";
+				for (var i = 0; i < e.entries.length; i++) {
+					content += e.entries[i].dataSeries.name + "<br/>" + e.entries[i].dataPoint.x.getDate()+"."+ (e.entries[i].dataPoint.x.getMonth() + 1) + "." + e.entries[i].dataPoint.x.getFullYear() + "<br/><br/>";
+
+					for (var j =0; j < e.entries[i].dataPoint.oceny.length; j++) {
+					content+=e.entries[i].dataPoint.oceny[j][0]+"<br/>"+"waga: "+e.entries[i].dataPoint.oceny[j][1]+"<br/>"+e.entries[i].dataPoint.oceny[j][2]+"<br/><br/>";
+					}
+
+					content+= "średnia: <strong>" + e.entries[i].dataPoint.y + "</strong>";
+					content += "<br/>";
+				}
+				return content;
+			}
+		},
+
+      title:{
+        text: "Średnia ważona"
+      },
+      axisX:{
+
+              valueFormatString: "DD-MM-YYYY"
+      },
+
+      axisY: {
+        interlacedColor: "#E6E6E6" ,
+        labelFontSize: 18,
+               minimum:1.0,
+               maximum:6.0,
+               interval: 0.5,
+              valueFormatString: "0.0#"
+      },
+
+           legend:{   //legend properties
+
+ 				cursor:"pointer",
+        itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+
+                e.chart.render();}
+			 },
+
+
+      data: [
+{%for j in range(content|length)%}
+      {
+        type: "line",
+              name: "{{przedmioty[j]}}",
+		showInLegend: true,
+        lineThickness: 2,
+        dataPoints: [
+
+        {%for i in range(content[j][0]|length)%}
+            { x: new Date("{{content[j][0][i]}}"), y: {{content[j][1][i]}}, oceny: [
+             {%for k in range(content[j][2][i]|length)%}
+             ["{{content[j][2][i][k].ocena}}", "{{content[j][2][i][k].waga}}", "{{content[j][2][i][k].opis}}"],
+             {%endfor%}
+             ]
+             },
+
+
+        {%endfor%}
+
+        ]
+      },
+ {%endfor%}
+      ]
+    });
+
+chart.render();
+}
+</script>
+
+
+</body>
+</html>

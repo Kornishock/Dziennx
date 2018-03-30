@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DziennX</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></head>
+
+<body>
+<h2><strong>Dziennx</strong><span style="color: #33cccc;"><em><sub>alpha</sub></em></span></h2>
+Witaj w aplikacji Dziennx. Zaloguj się przy pomocy loginu i hasła z dziennika elektornicznego uonet+, żeby śledzić swoje postępy.
+<br>
+<p><span style="color: #ff0000">{{loginerror}}</span></p>
+<form method="POST" ACTION="/">
+    <div class="form-group">
+        login:
+        <input type="text" name="login">
+
+        hasło:
+        <input type="password" name="password">
+    </div>
+    <input class="btn btn-primary" type="submit" value="submit">
+</form>
+
+</body>
+
+</html>
